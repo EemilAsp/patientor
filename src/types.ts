@@ -17,6 +17,33 @@ export interface Patient {
   gender: Gender
   ssn?: string
   dateOfBirth?: string
+  entries: Entry[]
 }
 
 export type PatientFormValues = Omit<Patient, "id" | "entries">
+
+export interface BaseHealthCareEntry {
+  id: string
+  date: string
+  specialist: string
+  diagnosisCodes: string[]
+  description: string
+}
+
+export interface HospitalEntry extends BaseHealthCareEntry {
+  type: "Hospital"
+  discharge: {
+    date: string
+    criteria: string
+  }
+}
+
+export interface OccupationalHealthcareEntry extends BaseHealthCareEntry {
+  type: "OccupationalHealthcare"
+  sickLeave: {
+    startDate: string
+    endDate: string
+  }
+}
+
+export type Entry = OccupationalHealthcareEntry | HospitalEntry
