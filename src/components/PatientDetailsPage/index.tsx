@@ -3,13 +3,14 @@ import FemaleIcon from "@mui/icons-material/Female"
 import MaleIcon from "@mui/icons-material/Male"
 import TransgenderIcon from "@mui/icons-material/Transgender"
 import { Typography, Box } from "@mui/material"
-import { Patient } from "../../types"
+import { Patient, Diagnosis } from "../../types"
 
 interface Props {
   patients: Patient[]
+  diagnoses: Diagnosis[]
 }
 
-const PatientDetailsPage = ({ patients }: Props) => {
+const PatientDetailsPage = ({ patients, diagnoses }: Props) => {
   const { id } = useParams<{ id: string }>()
   const patient = patients.find((p) => p.id === id)
 
@@ -57,7 +58,13 @@ const PatientDetailsPage = ({ patients }: Props) => {
               <div>Diagnosis codes: </div>
               <ul>
                 {entry.diagnosisCodes.map((code, index) => (
-                  <li key={index}>{code}</li>
+                  <li key={index}>
+                    {code} -{" "}
+                    {
+                      diagnoses.find((diagnosis) => diagnosis.code === code)
+                        ?.name
+                    }
+                  </li>
                 ))}
               </ul>
             </div>
